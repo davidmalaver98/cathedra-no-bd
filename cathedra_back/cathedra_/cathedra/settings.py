@@ -26,10 +26,11 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'clave-local-solo-dev')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1',
+    'cathedra-no-bd.onrender.com',
     'cathedra-1.onrender.com',
-    '.app.github.dev',  # ← wildcard para Codespaces
-    '.preview.app.github.dev',
+    'localhost',
+    '127.0.0.1',
+    '.app.github.dev',
 ]
 
 
