@@ -5,7 +5,7 @@ class Rol(models.Model):
     nombre_rol = models.CharField(max_length=50, unique=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'roles'
 
     def __str__(self):
@@ -23,7 +23,7 @@ class Usuario(models.Model):
     id_rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True, db_column='id_rol')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'usuarios'
 
     def __str__(self):
