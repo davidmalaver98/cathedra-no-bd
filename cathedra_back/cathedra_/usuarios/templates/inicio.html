@@ -208,7 +208,7 @@
   <nav>
     <div class="nav-brand">Cathedra</div>
     <div class="nav-right">
-      <div class="nav-user">Bienvenido, <span>{{ request.user.username }}</span></div>
+      <div class="nav-user">Bienvenido, <span>{{ request.session.usuario_nombre }}</span></div>  
       <a href="{% url 'logout' %}" class="logout-btn">Cerrar sesión</a>
     </div>
   </nav>

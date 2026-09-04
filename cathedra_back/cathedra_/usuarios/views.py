@@ -12,7 +12,7 @@ def login_view(request):
             if check_password(password, usuario.contrasena):
                 request.session['usuario_id'] = usuario.id_usuario
                 request.session['usuario_nombre'] = usuario.nombre
-                return redirect('landing')
+                return redirect('inicio')
             else:
                 error = 'Usuario o contraseña incorrectos'
         except Usuario.DoesNotExist:
@@ -46,5 +46,10 @@ def registro_view(request):
             usuario = Usuario.objects.get(correo=correo)
             request.session['usuario_id'] = usuario.id_usuario
             request.session['usuario_nombre'] = usuario.nombre
-            return redirect('landing')
+            return redirect('inicio')
     return render(request, 'login.html', {'error': error})
+
+def inicio_view(request):
+    if not request.session.get('usuario_id'):
+        return redirect('login')
+    return render(request, 'inicio.html')
