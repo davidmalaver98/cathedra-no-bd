@@ -605,7 +605,7 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">
+  <a href="{% url 'landing' %}" class="nav-logo"></a>
     <div class="nav-logo-icon">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L2 8l10 5 10-5-10-5zM2 16l10 5 10-5M2 12l10 5 10-5"/></svg>
     </div>
@@ -626,7 +626,7 @@ footer {
 
   <div class="nav-actions">
   {% if request.session.usuario_nombre %}
-    <span style="font-size:13px;color:var(--gray-600)">{{ request.session.usuario_nombre }}</span>
+    <a href="{% url 'inicio' %}" style="font-size:13px;color:var(--gray-600);text-decoration:none;">{{ request.session.usuario_nombre }}</a>
     <a href="{% url 'logout' %}" class="btn-ghost">Cerrar sesión</a>
   {% else %}
     <a href="{% url 'login' %}" class="btn-ghost">Iniciar sesión</a>
@@ -642,7 +642,7 @@ footer {
     <h1>Encuentra becas y oportunidades que <em>transforman</em> tu futuro</h1>
     <p class="hero-desc">Cathedra centraliza la información de becas, programas académicos y recursos para que tomes decisiones informadas sobre tu educación.</p>
     <div class="hero-cta">
-      <a href="registro.html" class="btn-primary">Explorar becas →</a>
+            <a href="{% url 'registro' %}" class="btn-primary">Explorar becas →</a>
       <a href="#nosotros" class="btn-secondary">Conoce más sobre Cathedra →</a>
     </div>
   </div>
