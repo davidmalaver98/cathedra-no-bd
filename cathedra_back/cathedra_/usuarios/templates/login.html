@@ -135,7 +135,21 @@
       transition: background 0.2s;
     }
 
-    .btn:hover { background: #333; }
+.btn:hover { background: #333; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      body { padding: 16px; align-items: flex-start; }
+      .card { margin-top: 32px; }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 24px 20px; border-radius: 8px; }
+      .brand { font-size: 11px; margin-bottom: 20px; }
+      .tab { font-size: 13px; }
+      .field input { font-size: 16px; }
+      .row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
   </style>
 </head>
 <body>

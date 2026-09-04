@@ -201,6 +201,26 @@
 
     .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: #333; letter-spacing: 3px; text-transform: uppercase; }
     .footer-copy { font-size: 10px; color: #2e2e2e; letter-spacing: 1.5px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .hero { padding: 120px 24px 60px; }
+      .cards-section { padding: 0 24px 60px; }
+      .stats { flex-wrap: wrap; gap: 24px; }
+      .stat { padding: 0; margin-right: 0; border-right: none; }
+      footer { padding: 20px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      nav { padding: 0 16px; }
+      .nav-brand { font-size: 18px; letter-spacing: 3px; }
+      .nav-user { display: none; }
+      .hero { padding: 100px 16px 48px; }
+      .cards-section { padding: 0 16px 48px; }
+      .stats { flex-direction: column; gap: 16px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 16px; }
+    }
   </style>
 </head>
 <body>
