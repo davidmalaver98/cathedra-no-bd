@@ -89,6 +89,17 @@
 
     .field input:focus { border-bottom-color: #111; }
 
+    .field input.invalid { border-bottom-color: #dc2626; }
+
+    .field-error {
+      display: none;
+      color: #dc2626;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .field-error.show { display: block; }
+
     .error-msg {
       background: #fef2f2;
       border: 1px solid #fecaca;
@@ -166,15 +177,17 @@
       {% if error %}
         <div class="error-msg">{{ error }}</div>
       {% endif %}
-      <form method="post">
+      <form method="post" id="form-login" novalidate>
         {% csrf_token %}
         <div class="field">
-          <label>Email *</label>
-          <input type="text" name="username" required autofocus>
+          <label for="login-username">Email *</label>
+          <input type="text" id="login-username" name="username" required autofocus>
+          <span class="field-error" id="err-login-username"></span>
         </div>
         <div class="field">
-          <label>Password *</label>
-          <input type="password" name="password" required>
+          <label for="login-password">Password *</label>
+          <input type="password" id="login-password" name="password" required>
+          <span class="field-error" id="err-login-password"></span>
         </div>
         <div class="row">
           <label class="remember">
@@ -188,27 +201,32 @@
 
     <!-- REGISTER -->
     <div class="form-section" id="tab-register">
-      <form method="post" action="{% url 'registro' %}">
+      <form method="post" action="{% url 'registro' %}" id="form-register" novalidate>
         {% csrf_token %}
         <div class="field">
-          <label>Name *</label>
-          <input type="text" name="first_name" required>
+          <label for="reg-name">Name *</label>
+          <input type="text" id="reg-name" name="first_name" required>
+          <span class="field-error" id="err-reg-name"></span>
         </div>
         <div class="field">
-          <label>Email *</label>
-          <input type="email" name="email" required>
+          <label for="reg-email">Email *</label>
+          <input type="email" id="reg-email" name="email" required>
+          <span class="field-error" id="err-reg-email"></span>
         </div>
         <div class="field">
-          <label>Username *</label>
-          <input type="text" name="username" required>
+          <label for="reg-username">Username *</label>
+          <input type="text" id="reg-username" name="username" required>
+          <span class="field-error" id="err-reg-username"></span>
         </div>
         <div class="field">
-          <label>Password *</label>
-          <input type="password" name="password1" required>
+          <label for="reg-password1">Password *</label>
+          <input type="password" id="reg-password1" name="password1" required>
+          <span class="field-error" id="err-reg-password1"></span>
         </div>
         <div class="field">
-          <label>Confirm Password *</label>
-          <input type="password" name="password2" required>
+          <label for="reg-password2">Confirm Password *</label>
+          <input type="password" id="reg-password2" name="password2" required>
+          <span class="field-error" id="err-reg-password2"></span>
         </div>
         <button class="btn" type="submit" style="margin-top:8px;">Create Account</button>
       </form>
@@ -222,6 +240,128 @@
       btn.classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
     }
+
+    // --- Validación de formularios en JS (sin alert) ---
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function showFieldError(input, message) {
+      var errorEl = document.getElementById('err-' + input.id);
+      input.classList.add('invalid');
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+    }
+
+    function clearFieldError(input) {
+      var errorEl = document.getElementById('err-' + input.id);
+      input.classList.remove('invalid');
+      errorEl.textContent = '';
+      errorEl.classList.remove('show');
+    }
+
+    function setupLiveClear(inputs) {
+      inputs.forEach(function (input) {
+        input.addEventListener('input', function () {
+          clearFieldError(input);
+        });
+      });
+    }
+
+    // Formulario de LOGIN
+    var loginForm = document.getElementById('form-login');
+    var loginUsername = document.getElementById('login-username');
+    var loginPassword = document.getElementById('login-password');
+
+    loginForm.addEventListener('submit', function (event) {
+      var isValid = true;
+
+      if (loginUsername.value.trim() === '') {
+        showFieldError(loginUsername, 'El email es obligatorio.');
+        isValid = false;
+      } else if (!isValidEmail(loginUsername.value.trim())) {
+        showFieldError(loginUsername, 'Ingresa un email con formato válido.');
+        isValid = false;
+      } else {
+        clearFieldError(loginUsername);
+      }
+
+      if (loginPassword.value === '') {
+        showFieldError(loginPassword, 'La contraseña es obligatoria.');
+        isValid = false;
+      } else {
+        clearFieldError(loginPassword);
+      }
+
+      if (!isValid) {
+        event.preventDefault();
+      }
+    });
+
+    setupLiveClear([loginUsername, loginPassword]);
+
+    // Formulario de REGISTRO
+    var regForm = document.getElementById('form-register');
+    var regName = document.getElementById('reg-name');
+    var regEmail = document.getElementById('reg-email');
+    var regUsername = document.getElementById('reg-username');
+    var regPassword1 = document.getElementById('reg-password1');
+    var regPassword2 = document.getElementById('reg-password2');
+
+    regForm.addEventListener('submit', function (event) {
+      var isValid = true;
+
+      if (regName.value.trim() === '') {
+        showFieldError(regName, 'El nombre es obligatorio.');
+        isValid = false;
+      } else {
+        clearFieldError(regName);
+      }
+
+      if (regEmail.value.trim() === '') {
+        showFieldError(regEmail, 'El email es obligatorio.');
+        isValid = false;
+      } else if (!isValidEmail(regEmail.value.trim())) {
+        showFieldError(regEmail, 'Ingresa un email con formato válido.');
+        isValid = false;
+      } else {
+        clearFieldError(regEmail);
+      }
+
+      if (regUsername.value.trim() === '') {
+        showFieldError(regUsername, 'El nombre de usuario es obligatorio.');
+        isValid = false;
+      } else {
+        clearFieldError(regUsername);
+      }
+
+      if (regPassword1.value === '') {
+        showFieldError(regPassword1, 'La contraseña es obligatoria.');
+        isValid = false;
+      } else if (regPassword1.value.length < 8) {
+        showFieldError(regPassword1, 'La contraseña debe tener al menos 8 caracteres.');
+        isValid = false;
+      } else {
+        clearFieldError(regPassword1);
+      }
+
+      if (regPassword2.value === '') {
+        showFieldError(regPassword2, 'Debes confirmar la contraseña.');
+        isValid = false;
+      } else if (regPassword2.value !== regPassword1.value) {
+        showFieldError(regPassword2, 'Las contraseñas no coinciden.');
+        isValid = false;
+      } else {
+        clearFieldError(regPassword2);
+      }
+
+      if (!isValid) {
+        event.preventDefault();
+      }
+    });
+
+    setupLiveClear([regName, regEmail, regUsername, regPassword1, regPassword2]);
   </script>
 </body>
 </html>
