@@ -21,8 +21,8 @@ graph LR
     Estudiante["**Estudiante**<br/>Navegador web"]
 
     subgraph Cathedra["Sistema Cathedra"]
-        Cliente["**Cliente web**<br/>HTML, CSS,<br/>Bootstrap"]
-        Backend["**Servidor backend**<br/>JavaScript<br/>(Node.js)"]
+        Cliente["**Cliente web**<br/>HTML, CSS,<br/>"]
+        Backend["**Servidor backend**<br/>validaciones JavaScript<br/>"]
         DB["**Base de datos**<br/>MySQL"]
 
         Cliente -->|HTTP| Backend
