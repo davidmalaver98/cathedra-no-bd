@@ -4,37 +4,40 @@ La arquitectura de Cathedra se define utilizando el estandar C4, cubriendo los n
 ## Nivel 1 — Diagrama de contexto
 
 ```mermaid
-graph LR
-    Estudiante["**Estudiante**<br/>Usuario del sistema"]
-    Cathedra["**Sistema Cathedra**<br/>Centraliza informacion de becas y<br/>programas academicos"]
+C4Context
+    title Sistema Cathedra - Diagrama de Contexto
 
-    Estudiante -->|HTTPS| Cathedra
+    Person(estudiante, "Estudiante", "Usuario del sistema")
+    System(cathedra, "Sistema Cathedra", "Centraliza informacion de becas y programas academicos")
 
-    style Estudiante fill:#f0ede0,stroke:#333,stroke-width:1px
-    style Cathedra fill:#e6e6fa,stroke:#3b3b98,stroke-width:2px
+    Rel(estudiante, cathedra, "Usa", "HTTPS")
+
+    UpdateElementStyle(estudiante, $bgColor="#f0ede0", $borderColor="#333333", $fontColor="#111111")
+    UpdateElementStyle(cathedra, $bgColor="#e6e6fa", $borderColor="#3b3b98", $fontColor="#1a1a1a")
 ```
 
 ## Nivel 2 — Diagrama de contenedores
 
 ```mermaid
-graph LR
-    Estudiante["**Estudiante**<br/>Navegador web"]
+C4Container
+    title Sistema Cathedra - Diagrama de Contenedores
 
-    subgraph Cathedra["Sistema Cathedra"]
-        Cliente["**Cliente web**<br/>HTML, CSS,<br/>"]
-        Backend["**Servidor backend**<br/>validaciones JavaScript<br/>"]
-        DB["**Base de datos**<br/>MySQL"]
+    Person(estudiante, "Estudiante", "Navegador web")
 
-        Cliente -->|HTTP| Backend
-        Backend -->|SQL| DB
-    end
+    System_Boundary(cathedra, "Sistema Cathedra") {
+        Container(cliente, "Cliente web", "HTML, CSS, Bootstrap", "Interfaz de usuario")
+        Container(backend, "Servidor backend", "JavaScript (Node.js)", "Logica de negocio y API")
+        ContainerDb(db, "Base de datos", "MySQL", "Almacena la informacion")
+    }
 
-    Estudiante -->|HTTPS| Cliente
+    Rel(estudiante, cliente, "Usa", "HTTPS")
+    Rel(cliente, backend, "Envia peticiones", "HTTP")
+    Rel(backend, db, "Lee/escribe", "SQL")
 
-    style Estudiante fill:#f0ede0,stroke:#333,stroke-width:1px
-    style Cliente fill:#d5f0e0,stroke:#2e7d5f,stroke-width:2px
-    style Backend fill:#f5ddd0,stroke:#a0402a,stroke-width:2px
-    style DB fill:#f7e8c8,stroke:#8a6d1f,stroke-width:2px
+    UpdateElementStyle(estudiante, $bgColor="#f0ede0", $borderColor="#333333", $fontColor="#111111")
+    UpdateElementStyle(cliente, $bgColor="#d5f0e0", $borderColor="#2e7d5f", $fontColor="#111111")
+    UpdateElementStyle(backend, $bgColor="#f5ddd0", $borderColor="#a0402a", $fontColor="#111111")
+    UpdateElementStyle(db, $bgColor="#f7e8c8", $borderColor="#8a6d1f", $fontColor="#111111")
 ```
 *Figura 1. Diagrama de arquitectura C4 (niveles 1 y 2), fuente propia Cathedra.*
 
